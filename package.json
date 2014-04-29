@@ -2,7 +2,7 @@
   "name": "autofixture-js",
   "version": "0.0.0",
   "description": "randomly generates test data fixtures",
-  "main": "index.js",
+  "main": "AutoFixture.js",
   "scripts": {
     "test": "test"
   },

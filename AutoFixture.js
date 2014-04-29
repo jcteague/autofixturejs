@@ -69,7 +69,7 @@ var buildFromObject = function buildFromObject(fieldObj, incrementer){
 			}
 		}
 	}
-	console.log(fixture);
+	
 	return fixture;
 }
 var createFixture = function(fixtureName, overrides, incrementer){
@@ -80,7 +80,7 @@ var createFixture = function(fixtureName, overrides, incrementer){
 	}
 		
 	else if(fixtureDef instanceof Object){
-		console.log("fixture is an object");
+		
 		fixture = buildFromObject(fixtureDef, incrementer)
 	}
 	if(overrides){
