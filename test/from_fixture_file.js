@@ -10,4 +10,5 @@ describe('getting fixtures from file',function(){
 		fixture.should.have.property('last_name');
 
 	})
+
 });

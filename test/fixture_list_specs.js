@@ -10,13 +10,14 @@ describe("When creating a List of Fixtures",function(){
 		fixtures.length.should.eql(5);
 	});
 
-	it("should increment the counter for each fixture created",function(){
+	it("should change the values of each fixture created",function(){
 		Factory.define("user",['first_name','last_name']);
 
 		var fixtures = Factory.createListOf('user',2);
 
 		console.log(fixtures);
-		fixtures[0].first_name.should.equal("first_name1");
-		fixtures[1].first_name.should.equal("first_name2");
+		fixture_1_name = fixtures[0].first_name
+		fixture_2_name = fixtures[1].first_name
+		fixture_1_name.should.not.equal(fixture_2_name);
 	});
 });

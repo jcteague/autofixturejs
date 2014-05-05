@@ -85,6 +85,36 @@ describe("Creating Single Fixture",function(){
 		console.log(fixture);
 	});
 
+	it("should have different values when two or more are created in the same factory instance",function(){
+		Factory.define('user', ["name",] )
+		var fixture1 = Factory.create('user')
+		var fixture2 = Factory.create('user')
+		console.log("fixture1 name="+fixture1.name);
+		console.log("fixture2 name="+fixture2.name);
+		fixture1.name.should.not.eql(fixture2.name)
+	})
+
+	it("should be able to create a property that is a fixture",function(){
+		Factory.define ('user',['first_name']);
+		Factory.define('order',[
+			'order_number',
+			'user'.fromFixture('user')
+		]);
+		var order = Factory.create('order');
+		order.should.have.property('user');
+		order.user.should.have.property('first_name');
+	})
+	it("nested-fixture: should be able to override properties a fixture that is part of another fixture",function(){
+		Factory.define ('user',['first_name','last_name']);
+		Factory.define('order',[
+			'order_number',
+			'user'.fromFixture('user')
+		]);
+		var order = Factory.create('order',{user:{first_name:'changed value'}});
+		order.user.first_name.should.eql('changed value')
+		order.user.should.have.property('last_name','last_name1')
+	})
+
 
 	
 })
