@@ -61,6 +61,16 @@ var users = factory.createListOf('User',2)
         email: 'email2'
     }
 ```
+##Overriding values 
+You can also override at creation time as well
+```
+factory.define('User',[
+    'first_name',
+    'roles'.asArray(1)
+]);
+
+var adminUser = factory.create('User',{roles:['admin']});
+```
 
 To change the behavior of the factory and return specific data types, several helper methods are added to the string object
 
