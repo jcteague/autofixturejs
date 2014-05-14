@@ -95,7 +95,7 @@ var user = Factory.create('user')
 }
 ```
 Custom genearators can be defined as well:
-```
+```js
 Factory.define('User',[
 'first_name',
 'email'.as(function(i){ return 'email'+i+'@email.com';});
@@ -153,7 +153,7 @@ var factory = require('AutoFixture')
 require('./fixtures')(factory)
 ```
 Now you can use the factory to access your defined fixtures.
-```
+```js
 describe("my tests",functio(){
     var user = factory.create('user');
     
