@@ -26,7 +26,7 @@ This will create an object with the fields specified in the array
 var user = Factory.create('User')
 
 ```
-The user object will have the fields specified in the definition with puedo random values:
+The user object will have the fields specified in the definition with pseudo random values:
 ```
 {
     first_name: 'first_name1',
