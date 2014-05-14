@@ -98,6 +98,31 @@ var user = factory.create('User');
     email: 'email1@email.com'
 }
 ```
+You can also used other Factories to generate fields
+```
 
+Factory.define('User',[
+    'first_name',
+    
+]);
+
+Factory.define('Order',[
+    'id'.asNumber(),
+    'order_date'.asDate()
+    'user'.fromFixture('User')
+]);
+```
+##Using Objects to Define a Factory
+
+You can also use an object to define your fixtures.  When you use an object the values for each field are used to create random data when you create the fixture
+```
+factory.define('User',{first_name, 'first', created_at: new Date(), id:1});
+var user = factory.create('User');
+{
+    first_name: 'first1';
+    created_at: new Date
+    id: 1
+}
+```
 
 
