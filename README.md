@@ -45,6 +45,23 @@ When you create another instance of this object with the factory, the numbers wi
         email: 'email2'
     }
 ```
+You can also create an array of fixtures, each with with unique values.
+```
+var users = factory.createListOf('User',2)
+
+[
+    {
+        first_name: 'first_name1',
+        last_name: 'last_name1',
+        email: 'email1'
+    },
+    {
+        first_name: 'first_name2',
+        last_name: 'last_name2',
+        email: 'email2'
+    }
+```
+
 To change the behavior of the factory and return specific data types, several helper methods are added to the string object
 
 ```
@@ -52,6 +69,8 @@ Factory.define('User',[
     'first_name',
     'id'.asNumber(),
     'created'.asDate(),
+    'roles'.asArray(2)
+    'city'.withValue('MyCity')
     
     ]);
     
@@ -61,9 +80,24 @@ var user = Factory.create('user')
     first_name: 'first_name1',
     id: 1
     created: Date
+    roles: ['roles1','roles2'],
+    city: 'MyCity1'
 }
 ```
+Custom genearators can be defined as well:
+```
+Factory.define('User',[
+'first_name',
+'email'.as(function(i){ return 'email'+i+'@email.com';});
+]);
 
+var user = factory.create('User');
+
+{
+    first_name: 'first_name1',
+    email: 'email1@email.com'
+}
+```
 
 
 
