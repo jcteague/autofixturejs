@@ -1,3 +1,12 @@
+String.prototype.as = function(builder){
+    var fieldName = this;
+    return function(incrementer){
+        return{
+            name: fieldName,
+            value: builder(incrementer)
+        }
+    }
+}
 String.prototype.asNumber = function(){
 	var fieldName = this;
 	return function(incrementer) 
@@ -9,6 +18,7 @@ String.prototype.asNumber = function(){
 		
 	};
 }
+
 String.prototype.asDate = function(){
 	var fieldName = this;
 	return function(incrementer){
@@ -17,6 +27,22 @@ String.prototype.asDate = function(){
 			value: new Date()
 		}
 	}
+}
+String.prototype.asArray = function(length){
+    var fieldName = this;
+    var createArray = function(incrementer){
+        result = []
+        for(var i = incrementer; i<=incrementer+length; i++){
+            result.push(fieldName+i)
+        }
+        return result
+    }
+    return function(incrementer){
+        return{
+            name: fieldName,
+            value: createArray(incrementer)
+        }
+    }
 }
 String.prototype.withValue = function(customValue){
 	var fieldName = this;
@@ -40,8 +66,9 @@ String.prototype.fromFixture = function(fixtureName){
 }
 
 
-	var fixtures = {}	
-	var buildFromArray = function buildFromArray(fieldArr, incrementer){
+	var fixtures = {}
+
+    var buildFromArray = function buildFromArray(fieldArr, incrementer){
 		var fixture = {};
 		var that = this;
 		fieldArr.forEach(function(n){
@@ -99,13 +126,12 @@ String.prototype.fromFixture = function(fixtureName){
 		}
 
 		var applyOverrides = function(target, override){
-			console.log("override = ");
-				console.log(override);
+			;
+
 			for(o in override){
-				console.log(o);
-				console.log("typeof override  = " + o +" " + typeof o)
+
 				if(typeof o === 'object'){
-					console.log("nested override")
+
 					applyOverrides(target,o)
 				}
 				if(override.hasOwnProperty(o) && target.hasOwnProperty(o)){
@@ -136,8 +162,11 @@ exports = module.exports =  {
 		createListOf: function createListOf(fixtureName, count, overrides){
 			overrides = overrides || {}
 			var result = []
+
 			for(var i=0; i < count; i++){
-				result[i] =  createFixture(fixtureName, overrides,i+1);
+				var fixture =  createFixture(fixtureName, overrides,i+1);
+                result[i] =  fixture;
+
 			}
 			return result;
 		}		
