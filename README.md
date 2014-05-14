@@ -17,17 +17,17 @@ You can define an object factory in one of the ways
 - object notation
 
 ### Fields Defined with an Array
-```
+```js
 Factory.define('User',['first_name','last_name','email'])
 ```
 This will create an object with the fields specified in the array
 
-```
+```js
 var user = Factory.create('User')
 
 ```
 The user object will have the fields specified in the definition with pseudo random values:
-```
+```js
 {
     first_name: 'first_name1',
     last_name: 'last_name1',
@@ -35,7 +35,7 @@ The user object will have the fields specified in the definition with pseudo ran
 }
 ```
 When you create another instance of this object with the factory, the numbers will be incremented:
-```
+```js
     //second object:
     var user2 = factory.create('User')
     
@@ -46,7 +46,7 @@ When you create another instance of this object with the factory, the numbers wi
     }
 ```
 You can also create an array of fixtures, each with with unique values.
-```
+```js
 var users = factory.createListOf('User',2)
 
 [
@@ -63,7 +63,7 @@ var users = factory.createListOf('User',2)
 ```
 ##Overriding values 
 You can also override at creation time as well
-```
+```js
 factory.define('User',[
     'first_name',
     'roles'.asArray(1)
@@ -74,7 +74,7 @@ var adminUser = factory.create('User',{roles:['admin']});
 
 To change the behavior of the factory and return specific data types, several helper methods are added to the string object
 
-```
+```js
 Factory.define('User',[
     'first_name',
     'id'.asNumber(),
@@ -109,7 +109,7 @@ var user = factory.create('User');
 }
 ```
 You can also used other Factories to generate fields
-```
+```js
 
 Factory.define('User',[
     'first_name',
@@ -125,7 +125,7 @@ Factory.define('Order',[
 ##Using Objects to Define a Factory
 
 You can also use an object to define your fixtures.  When you use an object the values for each field are used to create random data when you create the fixture
-```
+```js
 factory.define('User',{first_name, 'first', created_at: new Date(), id:1});
 var user = factory.create('User');
 {
@@ -138,7 +138,7 @@ var user = factory.create('User');
 Generally speaking you'll want to put the fixture definitions into a single file and reuse for different tests.  There's no real specific way you must do this, but this is how I've set mine up and it is working well for me
 
 Create a module that takes the factory as a function dependency
-```
+```js
 //fixtures.js
 =============
 
@@ -147,7 +147,7 @@ exports.module = function(factory){
 }
 ```
 In your test files require AutoFixture then pass the AutoFixture variable to the fixtures class
-```
+```js
 //tests.js
 var factory = require('AutoFixture')
 require('./fixtures')(factory)
