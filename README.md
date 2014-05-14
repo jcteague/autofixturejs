@@ -134,5 +134,29 @@ var user = factory.create('User');
     id: 1
 }
 ```
+## Creating a Fixtures file
+Generally speaking you'll want to put the fixture definitions into a single file and reuse for different tests.  There's no real specific way you must do this, but this is how I've set mine up and it is working well for me
 
+Create a module that takes the factory as a function dependency
+```
+//fixtures.js
+=============
+
+exports.module = function(factory){
+    factory.define ...
+}
+```
+In your test files require AutoFixture then pass the AutoFixture variable to the fixtures class
+```
+//tests.js
+var factory = require('AutoFixture')
+require('./fixtures')(factory)
+```
+Now you can use the factory to access your defined fixtures.
+```
+describe("my tests",functio(){
+    var user = factory.create('user');
+    
+});
+```
 
