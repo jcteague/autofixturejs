@@ -68,7 +68,7 @@ describe("Creating Single Fixture",function(){
 
 	it("should be able to override the value prefix when using an array to initialize",function(){
 		Factory.define('user', [
-			"name".withValue("custom"),
+			"name".withValue("custom")
 			
 			] )
 		var fixture = Factory.create("user");
@@ -78,21 +78,21 @@ describe("Creating Single Fixture",function(){
 
 	it("should be able to overwrite a value when creating",function(){
 		Factory.define('user', [
-			"name",
-			] )
+			"name"
+			] );
 		var fixture = Factory.create("user",{name:'my name'});
 		fixture.should.have.property("name","my name");
 		console.log(fixture);
 	});
 
 	it("should have different values when two or more are created in the same factory instance",function(){
-		Factory.define('user', ["name",] )
-		var fixture1 = Factory.create('user')
-		var fixture2 = Factory.create('user')
+		Factory.define('user', ["name",] );
+		var fixture1 = Factory.create('user');
+		var fixture2 = Factory.create('user');
 		console.log("fixture1 name="+fixture1.name);
 		console.log("fixture2 name="+fixture2.name);
-		fixture1.name.should.not.eql(fixture2.name)
-	})
+		fixture1.name.should.not.eql(fixture2.name);
+	});
 
 	it("should be able to create a property that is a fixture",function(){
 		Factory.define ('user',['first_name']);
@@ -103,7 +103,7 @@ describe("Creating Single Fixture",function(){
 		var order = Factory.create('order');
 		order.should.have.property('user');
 		order.user.should.have.property('first_name');
-	})
+	});
 	it("nested-fixture: should be able to override properties a fixture that is part of another fixture",function(){
 		Factory.define ('user',['first_name','last_name']);
 		Factory.define('order',[
@@ -111,10 +111,25 @@ describe("Creating Single Fixture",function(){
 			'user'.fromFixture('user')
 		]);
 		var order = Factory.create('order',{user:{first_name:'changed value'}});
-		order.user.first_name.should.eql('changed value')
+        console.log(order);
+		order.user.first_name.should.eql('changed value');
 		order.user.should.have.property('last_name','last_name1')
-	})
+	});
+    it("should be able to apply a custom generator function",function(){
+        Factory.define('user',['first_name','email'.as(function(i){return "email"+i+"@email.com";})]);
+        var user_1 = Factory.create('user');
+        var user_2 = Factory.create('user');
+        user_1.first_name.should.eql('first_name1');
+        user_1.email.should.eql('email1@email.com');
+        user_2.email.should.eql('email2@email.com');
+    });
+    it("should be able to apply custom generator through object notation",function(){
+        Factory.define('user',{first_name:'name',email: function(i){return 'email'+i+"@email.com";}});
+        var user = Factory.create('user');
+        user.email.should.eql('email1@email.com');
+    });
+
 
 
 	
-})
+});

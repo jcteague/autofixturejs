@@ -6,7 +6,7 @@ String.prototype.as = function(builder){
             value: builder(incrementer)
         }
     }
-}
+};
 String.prototype.asNumber = function(){
 	var fieldName = this;
 	return function(incrementer) 
@@ -17,7 +17,7 @@ String.prototype.asNumber = function(){
 		};
 		
 	};
-}
+};
 
 String.prototype.asDate = function(){
 	var fieldName = this;
@@ -27,23 +27,23 @@ String.prototype.asDate = function(){
 			value: new Date()
 		}
 	}
-}
+};
 String.prototype.asArray = function(length){
     var fieldName = this;
     var createArray = function(incrementer){
-        result = []
+        result = [];
         for(var i = incrementer; i<=incrementer+length; i++){
             result.push(fieldName+i)
         }
         return result
-    }
+    };
     return function(incrementer){
         return{
             name: fieldName,
             value: createArray(incrementer)
         }
     }
-}
+};
 String.prototype.withValue = function(customValue){
 	var fieldName = this;
 	return function(incrementer){
@@ -53,7 +53,7 @@ String.prototype.withValue = function(customValue){
 		}
 	}
 
-}
+};
 String.prototype.fromFixture = function(fixtureName){
 	var fieldName = this;
 	return function(incrementer){
@@ -63,10 +63,10 @@ String.prototype.fromFixture = function(fixtureName){
 			value: exports.create(fixtureName)
 		}
 	}
-}
+};
 
 
-	var fixtures = {}
+	var fixtures = {};
 
     var buildFromArray = function buildFromArray(fieldArr, incrementer){
 		var fixture = {};
@@ -84,7 +84,7 @@ String.prototype.fromFixture = function(fixtureName){
 			
 		});
 		return fixture;
-	}
+	};
 	var buildFromObject = function buildFromObject(fieldObj, incrementer){
 	
 		var fixture = {};
@@ -92,7 +92,10 @@ String.prototype.fromFixture = function(fixtureName){
 		
 			if(fieldObj.hasOwnProperty(k)){
 				var fieldValue = fieldObj[k];
-				if(typeof fieldValue === 'string')
+				if(typeof fieldValue === 'function'){
+                    fixture[k] = fieldValue(incrementer);
+                }
+                else if(typeof fieldValue === 'string')
 
 					if(fieldValue !== null && fieldValue !== '' ){
 						fixture[k] = fieldValue+incrementer;
@@ -109,7 +112,7 @@ String.prototype.fromFixture = function(fixtureName){
 		}
 	
 		return fixture;
-	}
+	};
 	var createFixture = function(fixtureName, overrides, incrementer){
 		var fixtureDef = fixtures[fixtureName].definition;
 		var fixtureCount = fixtures[fixtureName].count;
@@ -126,7 +129,7 @@ String.prototype.fromFixture = function(fixtureName){
 		}
 
 		var applyOverrides = function(target, override){
-			;
+
 
 			for(o in override){
 
@@ -135,10 +138,12 @@ String.prototype.fromFixture = function(fixtureName){
 					applyOverrides(target,o)
 				}
 				if(override.hasOwnProperty(o) && target.hasOwnProperty(o)){
-					target[o] = override[o];
+					if(typeof target[o] === 'object')
+                        applyOverrides(target[o],override[o]);
+                    target[o] = override[o];
 				}
 			}
-		}
+		};
 		if(overrides){
 			applyOverrides(fixture, overrides)	
 		}
@@ -170,12 +175,4 @@ exports = module.exports =  {
 			}
 			return result;
 		}		
-	}
-
-
-
-
-
-
-
-
+	};
