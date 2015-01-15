@@ -149,7 +149,7 @@ exports.module = function(factory){
 In your test files require AutoFixture then pass the AutoFixture variable to the fixtures class
 ```js
 //tests.js
-var factory = require('AutoFixture')
+var factory = require('autofixture')
 require('./fixtures')(factory)
 ```
 Now you can use the factory to access your defined fixtures.
