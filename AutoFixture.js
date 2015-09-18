@@ -139,8 +139,9 @@ String.prototype.fromFixture = function(fixtureName){
 				}
 				if(override.hasOwnProperty(o) && target.hasOwnProperty(o)){
 					if(typeof target[o] === 'object')
-                        applyOverrides(target[o],override[o]);
-                    target[o] = override[o];
+                        			applyOverrides(target[o],override[o]);
+                        		else
+                    				target[o] = override[o];
 				}
 			}
 		};
