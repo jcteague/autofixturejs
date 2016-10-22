@@ -38,7 +38,7 @@ String.prototype.asEmail = function(){
 	};
 };
 
-String.prototype.fromArray = function(options){
+String.prototype.pickFrom = function(options){
 	options = options || [];
 	var fieldName = this;
 	return function(incrementer){
