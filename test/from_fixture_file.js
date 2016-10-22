@@ -1,4 +1,4 @@
-var should = require("should")
+var should = require("should");
 var Factory = require('../AutoFixture');
 var fixtures = require('./fixtures');
 describe('getting fixtures from file',function(){
@@ -9,6 +9,6 @@ describe('getting fixtures from file',function(){
 		fixture.should.have.property('first_name');
 		fixture.should.have.property('last_name');
 
-	})
+	});
 
 });

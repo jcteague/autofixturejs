@@ -79,9 +79,11 @@ Factory.define('User',[
     'first_name',
     'id'.asNumber(),
     'created'.asDate(),
-    'roles'.asArray(2)
-    'city'.withValue('MyCity')
-    
+    'roles'.asArray(2),
+    'city'.withValue('MyCity'),
+    'has_car'.asBoolean()
+    'email'.asEmail(),
+    'color'.pickFrom(['green', 'yellow', 'red'])
     ]);
     
 //created will be DateTime.now
@@ -94,7 +96,7 @@ var user = Factory.create('user')
     city: 'MyCity1'
 }
 ```
-Custom genearators can be defined as well:
+Custom generators can be defined as well:
 ```js
 Factory.define('User',[
 'first_name',
@@ -108,7 +110,7 @@ var user = factory.create('User');
     email: 'email1@email.com'
 }
 ```
-You can also used other Factories to generate fields
+You can also use other Factories to generate fields
 ```js
 
 Factory.define('User',[
