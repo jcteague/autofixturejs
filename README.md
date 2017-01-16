@@ -1,4 +1,4 @@
-autofixturejs
+autofixturejs [![Build Status](https://travis-ci.org/jcteague/autofixturejs.svg?branch=master)](https://travis-ci.org/jcteague/autofixturejs)
 =============
 
 AutoFixture is a test fixture library that allows users to define fixtures for testing and populates them with pseudo random data.
