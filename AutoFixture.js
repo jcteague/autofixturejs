@@ -98,7 +98,6 @@ String.prototype.fromFixture = function(fixtureName){
 	};
 };
 
-
 	var fixtures = {};
 
     var buildFromArray = function buildFromArray(fieldArr, incrementer){
