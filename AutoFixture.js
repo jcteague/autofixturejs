@@ -1,3 +1,9 @@
+var names = require('./names');
+
+String.prototype.asFirstName = names.firstNameGenerator;
+String.prototype.asLastName = names.lastNameGenerator;
+String.prototype.asFullName = names.fullNameGenerator;
+
 String.prototype.as = function(builder){
     var fieldName = this;
     return function(incrementer){

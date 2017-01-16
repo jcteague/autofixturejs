@@ -21,8 +21,9 @@
   },
   "homepage": "https://github.com/jcteague/autofixturejs",
   "devDependencies": {
+    "coveralls": "^2.11.15",
+    "lodash.find": "^4.6.0",
     "mocha": "^1.18.2",
     "should": "^3.3.1"
   }
-  
 }
