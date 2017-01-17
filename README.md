@@ -61,8 +61,21 @@ var users = factory.createListOf('User',2)
         email: 'email2'
     }
 ```
+##Name Generators
+You can generate random names without the generic `first_name1` values
+```js
+var user = factory.create('User',[
+  'firstName'.asFirstName(),
+  'lastName'.asLastName(),
+  'fullName'.asFullName()
+]);
+```
+Will generate names randomly selected from a list.  `asFullName()` will concatenate a first name and last name.
+
+It currently selects from a list of 25 first and last names.  If this is not enough let me know and I will increase the pool size
+
 ##Overriding values 
-You can also override at creation time as well
+You can override fields at creation time as well
 ```js
 factory.define('User',[
     'first_name',
