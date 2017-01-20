@@ -75,7 +75,15 @@ describe("Creating Single Fixture",function(){
 		fixture.should.have.property("name","my name");
 		console.log(fixture);
 	});
-
+  it('should create a property as an Array of the provided length',function(){
+    Factory.define('user',[
+      'roles'.asArray(5)
+    ]);
+    var user = Factory.create('user');
+    user.should.have.property('roles');
+    user.roles.should.be.instanceOf(Array);
+    user.roles.should.have.lengthOf(5);
+  })
 	it("should have different values when two or more are created in the same factory instance",function(){
 		Factory.define('user', ["name",] );
 		var fixture1 = Factory.create('user');
