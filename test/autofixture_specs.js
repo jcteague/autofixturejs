@@ -1,5 +1,6 @@
 require("should");
 var Factory = require("../AutoFixture");
+
 describe("Creating Single Fixture",function(){
 	it("should create the object with the fields and generic data for each property",function(){
 		Factory.define("User",["first_name", "last_name", "email"]);	
@@ -157,4 +158,21 @@ describe("Creating Single Fixture",function(){
     	Factory.create('Boolean').field.should.be.a.Boolean
     	Factory.create('Boolean').field.should.be.a.Boolean
     });
+
+    it('create field as an array of fixtures', function(){
+      Factory.define('order',[
+        'orderNumber'.asNumber(),
+        'orderTotal'.asNumber(),
+        'orderDate'.asDate()
+      ]);
+      Factory.define('customer',[
+        'name'.asFullName(),
+        'orders'.asListOfFixtures('order',5)
+      ]);
+      var customer = Factory.create('customer');
+      customer.orders.should.have.lengthOf(5);
+      customer.orders[0].should.have.property('orderNumber');
+      customer.orders[0].should.have.property('orderTotal');
+      customer.orders[0].should.have.property('orderDate');
+    })
 });

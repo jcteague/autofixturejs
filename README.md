@@ -137,6 +137,13 @@ Factory.define('Order',[
     'user'.fromFixture('User')
 ]);
 ```
+Or a list of fixtures
+```js
+//generates orders property as an array with five Order objects
+Factory.define('user',[
+  'name'.asFullName(),
+  'orders'.asListOfFixtures('Order',5)
+]);
 ##Using Objects to Define a Factory
 
 You can also use an object to define your fixtures.  When you use an object the values for each field are used to create random data when you create the fixture
@@ -150,22 +157,23 @@ var user = factory.create('User');
 }
 ```
 ## Creating a Fixtures file
-Generally speaking you'll want to put the fixture definitions into a single file and reuse for different tests.  There's no real specific way you must do this, but this is how I've set mine up and it is working well for me
+Generally speaking you'll want to put the fixture definitions into a single file and reuse for different tests.
+
+There are several ways to do this, but what has worked best for me is to create a fixtures file, define the fixtures and export the factory.
 
 Create a module that takes the factory as a function dependency
 ```js
 //fixtures.js
 =============
-
-exports.module = function(factory){
-    factory.define ...
-}
+var factory = require('autofixture');
+factory.define ...
+exports.module = factory;
 ```
-In your test files require AutoFixture then pass the AutoFixture variable to the fixtures class
+In your test files just require your fixture and use the exported factor
 ```js
 //tests.js
-var factory = require('AutoFixture')
-require('./fixtures')(factory)
+var factory = require('./fixtures')
+
 ```
 Now you can use the factory to access your defined fixtures.
 ```js

@@ -103,6 +103,19 @@ String.prototype.fromFixture = function(fixtureName){
 		};
 	};
 };
+String.prototype.asListOfFixtures = function(fixtureName, length){
+	var fieldName = this;
+	return function(incrementer){
+		var fixtures = [];
+		for(var i = 0; i < length; i++){
+		  fixtures.push(exports.create(fixtureName))
+		}
+		return{
+			name:fieldName,
+			value: fixtures
+		};
+	};
+};
 
 	var fixtures = {};
 
