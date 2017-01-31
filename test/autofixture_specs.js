@@ -32,6 +32,19 @@ describe("Creating Single Fixture",function(){
 		var u = Factory.create("User");
 		u.id.should.equal(1);
 	});
+	it('should be able to use a constant as property value',function() {
+		Factory.define('user',[
+			'firstName'.asConstant('Barack'),
+			'lastName'.asConstant('Obama')
+		])
+		var user1 = Factory.create('user');
+		user1.firstName.should.equal('Barack');
+		user1.lastName.should.equal('Obama');
+
+		var user2 = Factory.create('user');
+		user2.firstName.should.equal('Barack');
+		user2.lastName.should.equal('Obama');
+	})
 
 	it("should be able to infer the type from the object values",function(){
 		Factory.define('User',{firstName: 'nameValue',id:2});

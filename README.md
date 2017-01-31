@@ -93,6 +93,7 @@ Factory.define('User',[
     'id'.asNumber(),
     'created'.asDate(),
     'roles'.asArray(2),
+    'department'.asConstant('Sales'),
     'city'.withValue('MyCity'),
     'has_car'.asBoolean()
     'email'.asEmail(),
@@ -109,6 +110,8 @@ var user = Factory.create('user')
     city: 'MyCity1'
 }
 ```
+`asConstant` will create the same value for all fixtures
+
 Custom generators can be defined as well:
 ```js
 Factory.define('User',[

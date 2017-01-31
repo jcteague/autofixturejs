@@ -24,6 +24,17 @@ String.prototype.asNumber = function(){
 	};
 };
 
+String.prototype.asConstant = function(fieldValue){
+	var fieldName = this;
+	return function(incrementer) 
+	{
+		return{
+			name : fieldName,
+			value : fieldValue	
+		};
+	};
+};
+
 String.prototype.asDate = function(){
 	var fieldName = this;
 	return function(incrementer){
