@@ -194,17 +194,20 @@ String.prototype.asListOfFixtures = function(fixtureName, length){
 
 
 			for(var o in override){
-
+        if(Array.isArray(target[o])){
+          target[o] = override[o];
+        }
 				if(typeof o === 'object'){
-
 					applyOverrides(target,o);
 				}
-				if(override.hasOwnProperty(o) && target.hasOwnProperty(o)){
-					if(typeof target[o] === 'object')
-                        			applyOverrides(target[o],override[o]);
-                        		else
-                    				target[o] = override[o];
+				if(typeof target[o] === 'object'){
+          applyOverrides(target[o],override[o]);
 				}
+				else if(typeof target[o] === 'array')
+					target[o] = override;
+				else
+					target[o] = override[o];
+
 			}
 		};
 		if(overrides){

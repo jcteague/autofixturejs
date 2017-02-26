@@ -96,7 +96,22 @@ describe("Creating Single Fixture",function(){
     user.should.have.property('roles');
     user.roles.should.be.instanceOf(Array);
     user.roles.should.have.lengthOf(5);
+  });
+
+  it('should be able to overide an array property', function () {
+  	Factory.define('user',[
+  		'roles'.asArray(5)
+		]);
+  	let user =  Factory.create('user', {roles: [1,2,3]})
+		user.roles.should.have.lengthOf(3)
+		user.roles.should.eql([1, 2, 3]);
+	})
+  it('should be able to append new fields that are on the override', function () {
+    Factory.define ('user',['first_name', 'last_name']);
+    let user = Factory.create('user', {id: 1});
+    user.should.eql({ first_name: 'first_name1', last_name: 'last_name1', id: 1 })
   })
+
 	it("should have different values when two or more are created in the same factory instance",function(){
 		Factory.define('user', ["name",] );
 		var fixture1 = Factory.create('user');
@@ -196,4 +211,6 @@ describe("Creating Single Fixture",function(){
       customer.orders[0].should.have.property('orderTotal');
       customer.orders[0].should.have.property('orderDate');
     })
+
+
 });

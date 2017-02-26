@@ -84,6 +84,19 @@ factory.define('User',[
 
 var adminUser = factory.create('User',{roles:['admin']});
 ```
+You can append new fields through overrides as well.  This is useful to create a fixture that could either be passed to an orm like Mongoose or bookshelf without and id.  But if you want to simulated an already persisted fixture, you can an `id` attribute.
+
+```js
+factory.define('User', ['first_name', 'last_name']);
+
+// un-persisted fixture:
+var user = factory.create('User'); // result: { first_name: 'first_name1', last_name: 'last_name1' }
+
+// persisted user with an id field
+var user = factory.create('User', { id: 1 }); // result: { first_name: 'first_name1', last_name: 'last_name1', id: 1 }
+
+
+
 
 To change the behavior of the factory and return specific data types, several helper methods are added to the string object
 
@@ -169,7 +182,9 @@ Create a module that takes the factory as a function dependency
 //fixtures.js
 =============
 var factory = require('autofixture');
+
 factory.define ...
+
 exports.module = factory;
 ```
 In your test files just require your fixture and use the exported factor
@@ -185,4 +200,9 @@ describe("my tests",functio(){
     
 });
 ```
+Change Log:
+ -- 1.0
+    -- Fixed issue with overriding array properties.
+    -- Can now append new properties with overrides.
+
 
