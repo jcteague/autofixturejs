@@ -203,8 +203,6 @@ String.prototype.asListOfFixtures = function(fixtureName, length){
 				if(typeof target[o] === 'object'){
           applyOverrides(target[o],override[o]);
 				}
-				else if(typeof target[o] === 'array')
-					target[o] = override;
 				else
 					target[o] = override[o];
 
