@@ -74,8 +74,8 @@ Will generate names randomly selected from a list.  `asFullName()` will concaten
 
 It currently selects from a list of 25 first and last names.  If this is not enough let me know and I will increase the pool size
 
-##Overriding values 
-You can override fields at creation time as well
+## Overriding values
+You can override the values at creation time, allowing you to create a generic fixture and change just the values you need for a specific test.
 ```js
 factory.define('User',[
     'first_name',
@@ -83,6 +83,15 @@ factory.define('User',[
 ]);
 
 var adminUser = factory.create('User',{roles:['admin']});
+```
+Alternatively you can pass a function as the override which will give you more control over the result of the override.  This is especially helpful for deeply nested objects.
+```js
+var user = Factory.create('user', (user)=> {
+			user.first_name = 'James';
+			user.last_name = 'Kirk';
+			user.orders[0] = 'new order';
+			return user;
+		})
 ```
 You can append new fields through overrides as well.  This is useful to create a fixture that could either be passed to an orm like Mongoose or bookshelf without and id.  But if you want to simulated an already persisted fixture, you can an `id` attribute.
 
@@ -94,9 +103,6 @@ var user = factory.create('User'); // result: { first_name: 'first_name1', last_
 
 // persisted user with an id field
 var user = factory.create('User', { id: 1 }); // result: { first_name: 'first_name1', last_name: 'last_name1', id: 1 }
-
-
-
 
 To change the behavior of the factory and return specific data types, several helper methods are added to the string object
 

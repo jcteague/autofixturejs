@@ -176,6 +176,10 @@ String.prototype.asListOfFixtures = function(fixtureName, length){
 		return fixture;
 	};
 	var createFixture = function(fixtureName, overrides, incrementer){
+    var fixtureObj = fixtures[fixtureName];
+    if(!fixtureObj){
+      throw new Error('fixture "'+fixtureName + '" not defined');
+    }
 		var fixtureDef = fixtures[fixtureName].definition;
 		var fixtureCount = fixtures[fixtureName].count;
 		var fixture;
@@ -191,7 +195,10 @@ String.prototype.asListOfFixtures = function(fixtureName, length){
 		}
 
 		var applyOverrides = function(target, override){
-
+			if(typeof override === 'function'){
+				target = override(target);
+				return;
+			}
 
 			for(var o in override){
         if(Array.isArray(target[o])){

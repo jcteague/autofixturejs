@@ -88,6 +88,22 @@ describe("Creating Single Fixture",function(){
 		fixture.should.have.property("name","my name");
 		console.log(fixture);
 	});
+	it('should be able to use a function to override the fixture', function () {
+		Factory.define('user',[
+			'first_name',
+			'last_name',
+			'orders'.asArray(2)
+		]);
+		var user = Factory.create('user', (user)=> {
+			user.first_name = 'James';
+			user.last_name = 'Kirk';
+			user.orders[0] = 'new order';
+			return user;
+		})
+		user.first_name.should.equal('James')
+		user.last_name.should.equal('Kirk')
+		user.orders[0].should.equal('new order')
+  })
   it('should create a property as an Array of the provided length',function(){
     Factory.define('user',[
       'roles'.asArray(5)
@@ -210,6 +226,11 @@ describe("Creating Single Fixture",function(){
       customer.orders[0].should.have.property('orderNumber');
       customer.orders[0].should.have.property('orderTotal');
       customer.orders[0].should.have.property('orderDate');
+    })
+		it('should throw an error if fixture does not exist', function () {
+			Factory.define('user',['name'])
+			Factory.create.bind(null,'wrong fixture').should.throw(/wrong fixture/);
+
     })
 
 
