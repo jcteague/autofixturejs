@@ -1,4 +1,5 @@
 autofixturejs [![Build Status](https://travis-ci.org/jcteague/autofixturejs.svg?branch=master)](https://travis-ci.org/jcteague/autofixturejs) [![Coverage Status](https://coveralls.io/repos/github/jcteague/autofixturejs/badge.svg?branch=master)](https://coveralls.io/github/jcteague/autofixturejs?branch=master)
+[![Join the chat at https://gitter.im/autofixturejs/Lobby](https://badges.gitter.im/autofixturejs/Lobby.svg)](https://gitter.im/autofixturejs/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 =============
 
 AutoFixture is a test fixture library that allows users to define fixtures for testing and populates them with pseudo random data.
