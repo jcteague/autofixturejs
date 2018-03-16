@@ -1,121 +1,36 @@
+require('./src/builder-functions');
 var names = require('./names');
 
 String.prototype.asFirstName = names.firstNameGenerator;
 String.prototype.asLastName = names.lastNameGenerator;
 String.prototype.asFullName = names.fullNameGenerator;
 
-String.prototype.as = function(builder){
-    var fieldName = this;
-    return function(incrementer){
-        return{
-            name: fieldName,
-            value: builder(incrementer)
-        };
-    };
-};
-String.prototype.asNumber = function(){
-	var fieldName = this;
-	return function(incrementer) 
-	{
-		return{
-			name : fieldName,
-			value : incrementer	
-		};
-	};
-};
-
-String.prototype.asDate = function(){
-	var fieldName = this;
-	return function(incrementer){
-		return{
-			name:fieldName,
-			value: new Date()
-		};
-	};
-};
-
-String.prototype.asEmail = function(){
-	var fieldName = this;
-	return function(incrementer){
-		return{
-			name:fieldName,
-			value: "email"+incrementer+"@email.com"
-		};
-	};
-};
-
-String.prototype.pickFrom = function(options){
-	options = options || [];
-	var fieldName = this;
-	return function(incrementer){
-		return{
-			name:fieldName,
-			value: options.length?options[Math.floor(Math.random()*options.length)]:null
-		};
-	};
-};
-
-String.prototype.asBoolean = function(){
-	var fieldName = this;
-	return function(incrementer){
-		return{
-			name:fieldName,
-			value: Math.floor(Math.random()*2)?true:false
-		};
-	};
-};
-
-String.prototype.asArray = function(length){
-    var fieldName = this;
-    var createArray = function(incrementer){
-        result = [];
-        for(var i = incrementer; i<incrementer+length; i++){
-            result.push(fieldName+i);
-        }
-        return result;
-    };
-    return function(incrementer){
-        return{
-            name: fieldName,
-            value: createArray(incrementer)
-        };
-    };
-};
-
-String.prototype.withValue = function(customValue){
-	var fieldName = this;
-	return function(incrementer){
-		return{
-			name:fieldName,
-			value: customValue+incrementer
-		};
-	};
-
-};
-
 String.prototype.fromFixture = function(fixtureName){
-	var fieldName = this;
-	return function(incrementer){
-		
-		return{
-			name:fieldName,
-			value: exports.create(fixtureName)
-		};
-	};
+  var fieldName = this;
+  return function(incrementer){
+
+    return{
+      name:fieldName,
+      value: create(fixtureName)
+    };
+  };
 };
+
+
 String.prototype.asListOfFixtures = function(fixtureName, length){
-	var fieldName = this;
-	return function(incrementer){
-		var fixtures = [];
-		for(var i = 0; i < length; i++){
-		  fixtures.push(exports.create(fixtureName))
-		}
-		return{
-			name:fieldName,
-			value: fixtures
-		};
-	};
+  const fieldName = this;
+  return function(incrementer){
+    const fixtures = [];
+    for(let i = 0; i < length; i++){
+      fixtures.push(exports.create(fixtureName))
+    }
+    return{
+      name:fieldName,
+      value: fixtures
+    };
+  };
 };
+
 
 	var fixtures = {};
 
@@ -180,8 +95,6 @@ String.prototype.asListOfFixtures = function(fixtureName, length){
 		}
 
 		var applyOverrides = function(target, override){
-
-
 			for(var o in override){
 
 				if(typeof o === 'object'){
@@ -205,26 +118,36 @@ String.prototype.asListOfFixtures = function(fixtureName, length){
 
 	};
 
-exports = module.exports =  {
-		define : function define(name, fixtureDef){
-		fixtures[name] ={};
-		fixtures[name].definition = fixtureDef;
-		fixtures[name].count = 0;
-		},
 
-		create: function create(fixtureName,overrides){
-			return createFixture(fixtureName, overrides,1);
-		},
+const create = (fixtureName,overrides) => {
+  return createFixture(fixtureName, overrides,1);
+};
 
-		createListOf: function createListOf(fixtureName, count, overrides){
-			overrides = overrides || {};
-			var result = [];
+const createListOf = (fixtureName, count, overrides) =>{
+  overrides = overrides || {};
+  var result = [];
 
-			for(var i=0; i < count; i++){
-				var fixture =  createFixture(fixtureName, overrides,i+1);
-                result[i] =  fixture;
+  for(var i=0; i < count; i++){
+    var fixture =  createFixture(fixtureName, overrides,i+1);
+    result[i] =  fixture;
 
-			}
-			return result;
-		}		
+  }
+  return result;
+};
+const define = (name, fixtureDef) => {
+  fixtures[name] ={};
+  fixtures[name].definition = fixtureDef;
+  fixtures[name].count = 0;
+  return {
+    create(overrides) {
+    	return createFixture(name,overrides, 1)},
+    createListOf(count, overrides) { return createListOf(name, count, overrides)},
 	};
+};
+
+
+exports = module.exports =  {
+	define,
+  createListOf,
+	create,
+};
