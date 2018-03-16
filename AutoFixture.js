@@ -5,10 +5,10 @@ String.prototype.asFirstName = names.firstNameGenerator;
 String.prototype.asLastName = names.lastNameGenerator;
 String.prototype.asFullName = names.fullNameGenerator;
 
+
 String.prototype.fromFixture = function(fixtureName){
   var fieldName = this;
   return function(incrementer){
-
     return{
       name:fieldName,
       value: create(fixtureName)
@@ -80,6 +80,10 @@ String.prototype.asListOfFixtures = function(fixtureName, length){
 		return fixture;
 	};
 	var createFixture = function(fixtureName, overrides, incrementer){
+    var fixtureObj = fixtures[fixtureName];
+    if(!fixtureObj){
+      throw new Error('fixture "'+fixtureName + '" not defined');
+    }
 		var fixtureDef = fixtures[fixtureName].definition;
 		var fixtureCount = fixtures[fixtureName].count;
 		var fixture;
@@ -95,18 +99,24 @@ String.prototype.asListOfFixtures = function(fixtureName, length){
 		}
 
 		var applyOverrides = function(target, override){
+			if(typeof override === 'function'){
+				target = override(target);
+				return;
+			}
+
 			for(var o in override){
-
+        if(Array.isArray(target[o])){
+          target[o] = override[o];
+        }
 				if(typeof o === 'object'){
-
 					applyOverrides(target,o);
 				}
-				if(override.hasOwnProperty(o) && target.hasOwnProperty(o)){
-					if(typeof target[o] === 'object')
-                        			applyOverrides(target[o],override[o]);
-                        		else
-                    				target[o] = override[o];
+				if(typeof target[o] === 'object'){
+          applyOverrides(target[o],override[o]);
 				}
+				else
+					target[o] = override[o];
+
 			}
 		};
 		if(overrides){

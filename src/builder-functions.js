@@ -90,3 +90,15 @@ String.prototype.withValue = function(customValue){
 
 };
 
+String.prototype.asConstant = function(fieldValue){
+  var fieldName = this;
+  return function(incrementer)
+  {
+    return{
+      name : fieldName,
+      value : fieldValue
+    };
+  };
+};
+
+

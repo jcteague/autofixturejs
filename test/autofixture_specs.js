@@ -32,6 +32,19 @@ describe("Creating Single Fixture",function(){
 		var u = Factory.create("User");
 		u.id.should.equal(1);
 	});
+	it('should be able to use a constant as property value',function() {
+		Factory.define('user',[
+			'firstName'.asConstant('Barack'),
+			'lastName'.asConstant('Obama')
+		])
+		var user1 = Factory.create('user');
+		user1.firstName.should.equal('Barack');
+		user1.lastName.should.equal('Obama');
+
+		var user2 = Factory.create('user');
+		user2.firstName.should.equal('Barack');
+		user2.lastName.should.equal('Obama');
+	})
 
 	it("should be able to infer the type from the object values",function(){
 		Factory.define('User',{firstName: 'nameValue',id:2});
@@ -75,6 +88,22 @@ describe("Creating Single Fixture",function(){
 		fixture.should.have.property("name","my name");
 		console.log(fixture);
 	});
+	it('should be able to use a function to override the fixture', function () {
+		Factory.define('user',[
+			'first_name',
+			'last_name',
+			'orders'.asArray(2)
+		]);
+		var user = Factory.create('user', (user)=> {
+			user.first_name = 'James';
+			user.last_name = 'Kirk';
+			user.orders[0] = 'new order';
+			return user;
+		})
+		user.first_name.should.equal('James')
+		user.last_name.should.equal('Kirk')
+		user.orders[0].should.equal('new order')
+  })
   it('should create a property as an Array of the provided length',function(){
     Factory.define('user',[
       'roles'.asArray(5)
@@ -83,7 +112,22 @@ describe("Creating Single Fixture",function(){
     user.should.have.property('roles');
     user.roles.should.be.instanceOf(Array);
     user.roles.should.have.lengthOf(5);
+  });
+
+  it('should be able to overide an array property', function () {
+  	Factory.define('user',[
+  		'roles'.asArray(5)
+		]);
+  	let user =  Factory.create('user', {roles: [1,2,3]})
+		user.roles.should.have.lengthOf(3)
+		user.roles.should.eql([1, 2, 3]);
+	})
+  it('should be able to append new fields that are on the override', function () {
+    Factory.define ('user',['first_name', 'last_name']);
+    let user = Factory.create('user', {id: 1});
+    user.should.eql({ first_name: 'first_name1', last_name: 'last_name1', id: 1 })
   })
+
 	it("should have different values when two or more are created in the same factory instance",function(){
 		Factory.define('user', ["name",] );
 		var fixture1 = Factory.create('user');
@@ -183,4 +227,11 @@ describe("Creating Single Fixture",function(){
       customer.orders[0].should.have.property('orderTotal');
       customer.orders[0].should.have.property('orderDate');
     })
+		it('should throw an error if fixture does not exist', function () {
+			Factory.define('user',['name'])
+			Factory.create.bind(null,'wrong fixture').should.throw(/wrong fixture/);
+
+    })
+
+
 });

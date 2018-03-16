@@ -1,4 +1,5 @@
 autofixturejs [![Build Status](https://travis-ci.org/jcteague/autofixturejs.svg?branch=master)](https://travis-ci.org/jcteague/autofixturejs) [![Coverage Status](https://coveralls.io/repos/github/jcteague/autofixturejs/badge.svg?branch=master)](https://coveralls.io/github/jcteague/autofixturejs?branch=master)
+[![Join the chat at https://gitter.im/autofixturejs/Lobby](https://badges.gitter.im/autofixturejs/Lobby.svg)](https://gitter.im/autofixturejs/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 =============
 
 AutoFixture is a test fixture library that allows users to define fixtures for testing and populates them with pseudo random data.
@@ -74,8 +75,8 @@ Will generate names randomly selected from a list.  `asFullName()` will concaten
 
 It currently selects from a list of 25 first and last names.  If this is not enough let me know and I will increase the pool size
 
-##Overriding values 
-You can override fields at creation time as well
+## Overriding values
+You can override the values at creation time, allowing you to create a generic fixture and change just the values you need for a specific test.
 ```js
 factory.define('User',[
     'first_name',
@@ -84,6 +85,25 @@ factory.define('User',[
 
 var adminUser = factory.create('User',{roles:['admin']});
 ```
+Alternatively you can pass a function as the override which will give you more control over the result of the override.  This is especially helpful for deeply nested objects.
+```js
+var user = Factory.create('user', (user)=> {
+			user.first_name = 'James';
+			user.last_name = 'Kirk';
+			user.orders[0] = 'new order';
+			return user;
+		})
+```
+You can append new fields through overrides as well.  This is useful to create a fixture that could either be passed to an orm like Mongoose or bookshelf without and id.  But if you want to simulated an already persisted fixture, you can an `id` attribute.
+
+```js
+factory.define('User', ['first_name', 'last_name']);
+
+// un-persisted fixture:
+var user = factory.create('User'); // result: { first_name: 'first_name1', last_name: 'last_name1' }
+
+// persisted user with an id field
+var user = factory.create('User', { id: 1 }); // result: { first_name: 'first_name1', last_name: 'last_name1', id: 1 }
 
 To change the behavior of the factory and return specific data types, several helper methods are added to the string object
 
@@ -93,6 +113,7 @@ Factory.define('User',[
     'id'.asNumber(),
     'created'.asDate(),
     'roles'.asArray(2),
+    'department'.asConstant('Sales'),
     'city'.withValue('MyCity'),
     'has_car'.asBoolean()
     'email'.asEmail(),
@@ -109,6 +130,8 @@ var user = Factory.create('user')
     city: 'MyCity1'
 }
 ```
+`asConstant` will create the same value for all fixtures
+
 Custom generators can be defined as well:
 ```js
 Factory.define('User',[
@@ -166,7 +189,9 @@ Create a module that takes the factory as a function dependency
 //fixtures.js
 =============
 var factory = require('autofixture');
+
 factory.define ...
+
 exports.module = factory;
 ```
 In your test files just require your fixture and use the exported factor
@@ -182,4 +207,9 @@ describe("my tests",functio(){
     
 });
 ```
+Change Log:
+ -- 1.0
+    -- Fixed issue with overriding array properties.
+    -- Can now append new properties with overrides.
+
 
