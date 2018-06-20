@@ -180,8 +180,8 @@ describe("Creating Single Fixture",function(){
     		'email'.asEmail()
     	]);
 
-    	Factory.create('Email').email.should.equal('email1@email.com');
-    	Factory.create('Email').email.should.equal('email2@email.com');
+    	Factory.create('Email').email.should.equal('email1@example.com');
+    	Factory.create('Email').email.should.equal('email2@example.com');
     });
 
     it('should be able to pick a random item from a provided array', function(){
