@@ -36,7 +36,7 @@ String.prototype.asEmail = function(){
   return function(incrementer){
     return{
       name:fieldName,
-      value: "email"+incrementer+"@email.com"
+      value: "email"+incrementer+"@example.com"
     };
   };
 };
