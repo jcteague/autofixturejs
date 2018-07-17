@@ -2,9 +2,9 @@
   "name": "autofixture",
   "version": "1.1.0",
   "description": "randomly generates test data fixtures",
-  "main": "./AutoFixture.js",
+  "main": "./index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha",
+    "test": "mocha --grep v2",
     "test-ci": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "repository": {
@@ -22,10 +22,11 @@
   },
   "homepage": "https://github.com/jcteague/autofixturejs",
   "devDependencies": {
-    "coveralls": "^2.11.15",
+    "coveralls": "^3.0.2",
     "istanbul": "^0.4.5",
     "lodash.find": "^4.6.0",
-    "mocha": "^1.18.2",
-    "should": "^3.3.1"
+    "mocha": "^5.2.0",
+    "should": "^13.2.1",
+    "sinon": "^5.1.1"
   }
 }

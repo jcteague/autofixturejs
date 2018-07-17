@@ -5,7 +5,6 @@ String.prototype.asFirstName = names.firstNameGenerator;
 String.prototype.asLastName = names.lastNameGenerator;
 String.prototype.asFullName = names.fullNameGenerator;
 
-
 String.prototype.fromFixture = function(fixtureName){
   var fieldName = this;
   return function(incrementer){
@@ -15,7 +14,6 @@ String.prototype.fromFixture = function(fixtureName){
     };
   };
 };
-
 
 String.prototype.asListOfFixtures = function(fixtureName, length){
   const fieldName = this;
@@ -39,23 +37,23 @@ String.prototype.asListOfFixtures = function(fixtureName, length){
 		var that = this;
 		fieldArr.forEach(function(n){
 			if(typeof n === 'string'){
-				fixture[n] = n+incrementer;	
+				fixture[n] = n+incrementer;
 			}
 			else if (typeof n == 'function'){
-				
+
 				funcResult = n(incrementer,that );
-				
+
 				fixture[funcResult.name] = funcResult.value;
 			}
-			
+
 		});
 		return fixture;
 	};
 	var buildFromObject = function buildFromObject(fieldObj, incrementer){
-	
+
 		var fixture = {};
 		for(var k in fieldObj){
-		
+
 			if(fieldObj.hasOwnProperty(k)){
 				var fieldValue = fieldObj[k];
 				if(typeof fieldValue === 'function'){
@@ -67,16 +65,16 @@ String.prototype.asListOfFixtures = function(fixtureName, length){
 						fixture[k] = fieldValue+incrementer;
 					}
 					else{
-						fixture[k] = k+incrementer;	
+						fixture[k] = k+incrementer;
 					}
-					
-					
+
+
 				else{
 					fixture[k] = fieldObj[k];
 				}
 			}
 		}
-	
+
 		return fixture;
 	};
 	var createFixture = function(fixtureName, overrides, incrementer){
@@ -88,13 +86,13 @@ String.prototype.asListOfFixtures = function(fixtureName, length){
 		var fixtureCount = fixtures[fixtureName].count;
 		var fixture;
 		var incrementValue = fixtureCount + incrementer;
-		
+
 		if(fixtureDef instanceof Array){
 			fixture = buildFromArray(fixtureDef, incrementValue);
 		}
-			
+
 		else if(fixtureDef instanceof Object){
-			
+
 			fixture = buildFromObject(fixtureDef, incrementValue);
 		}
 
