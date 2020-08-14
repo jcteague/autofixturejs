@@ -62,7 +62,8 @@ var users = factory.createListOf('User',2)
         email: 'email2'
     }
 ```
-##Name Generators
+
+## Name Generators
 You can generate random names without the generic `first_name1` values
 ```js
 var user = factory.create('User',[
@@ -104,6 +105,7 @@ var user = factory.create('User'); // result: { first_name: 'first_name1', last_
 
 // persisted user with an id field
 var user = factory.create('User', { id: 1 }); // result: { first_name: 'first_name1', last_name: 'last_name1', id: 1 }
+```
 
 To change the behavior of the factory and return specific data types, several helper methods are added to the string object
 
@@ -167,9 +169,11 @@ Factory.define('user',[
   'name'.asFullName(),
   'orders'.asListOfFixtures('Order',5)
 ]);
-##Using Objects to Define a Factory
+```
 
-You can also use an object to define your fixtures.  When you use an object the values for each field are used to create random data when you create the fixture
+## Using Objects to Define a Factory
+
+You can also use an object to define your fixtures. When you use an object the values for each field are used to create random data when you create the fixture
 ```js
 factory.define('User',{first_name, 'first', created_at: new Date(), id:1});
 var user = factory.create('User');
