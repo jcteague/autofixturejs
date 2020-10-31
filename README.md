@@ -1,3 +1,6 @@
+# Deprecated
+I did a complete rewrite of this package and published it with a different name.  [Efate](https://github.com/jcteague/efate).  It has the same basic api, but is modular and extensible, and easier to use.
+
 autofixturejs [![Build Status](https://travis-ci.org/jcteague/autofixturejs.svg?branch=master)](https://travis-ci.org/jcteague/autofixturejs) [![Coverage Status](https://coveralls.io/repos/github/jcteague/autofixturejs/badge.svg?branch=master)](https://coveralls.io/github/jcteague/autofixturejs?branch=master)
 [![Join the chat at https://gitter.im/autofixturejs/Lobby](https://badges.gitter.im/autofixturejs/Lobby.svg)](https://gitter.im/autofixturejs/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 =============
